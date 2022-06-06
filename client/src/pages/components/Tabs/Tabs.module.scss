@@ -1,0 +1,67 @@
+@import '../../../styles/variables.scss';
+
+
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 7px;
+  position: relative;
+}
+
+.concel,
+.tab {
+  box-shadow: 2px 5px 25px -3px rgba(180, 180, 180, 0.25);
+  border-radius: 5px;
+  padding: 9px 20px;
+  border-color: $light-background;
+  margin-right: 15px;
+  color: var(#{--text-color-default});
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  background: var(#{--components-background-default});
+  cursor: pointer;
+}
+
+.concel {
+  margin: 0;
+  display: inline;
+  position: absolute;
+  width: 132px;
+  right: 0px;
+}
+
+.tabs__wrapper {
+  display: flex;
+}
+
+.tabs__wrapper.none {
+  display: none
+}
+
+.tab.active {
+    background: $primary-colors;
+    color: #fff;
+}
+
+@media(max-width: 880px) {
+  .tab {
+    padding: 6px 6px;
+  }
+  .concel {
+    position: initial;
+  }
+}
+
+@media(max-width: 440px) {
+  .tabs {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .tabs__wrapper {
+    display: flex;
+    margin-bottom: 10px;
+  }
+}
