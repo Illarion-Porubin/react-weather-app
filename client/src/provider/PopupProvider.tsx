@@ -22,6 +22,9 @@ export const PopupProvider: FC<Props> = ({ children, ...props }) => {
     dispatch(currentWeatherSlice.actions.payloadDay(day));
   }
   
+  console.log(`usePopup`);
+
+
   const allPopup = (popup: string) => {
     switch (popup) {
       case "popupDay": return (

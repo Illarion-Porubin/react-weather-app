@@ -34,7 +34,6 @@ export const Card: FC<Props> = ({ day }) => {
         <div className={s.day__info}>
           {time}
         </div>
-        {/* <div className={s.day}>{time}</div> */}
         <div className={s.img}>
           <GlobalSvgSelecotr id={day.weather[0].main} />
         </div>

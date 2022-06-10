@@ -1,30 +1,35 @@
-import { useEffect, FC, useState } from "react";
+import React, { useEffect, FC, useState } from "react";
 import { GlobalSvgSelecotr } from "../../../assets/icons/global/GlobalSvgSelecotr";
 import { useTheme } from "../../../hooks/useTheme";
 import { Theme } from "../../../context/ThemeConext";
 import { fetchCurrentWeather } from "../../../store/thunks/fetchCurrentWeather";
+import { currentWeatherSlice } from "../../../store/slices/currentWeatherSlice";
 import { useCustomDispatch, useCustomSelector } from "../../../hooks/store";
 import { selectCurrentWeatherData } from "../../../store/selectors";
-import { currentWeatherSlice } from "../../../store/slices/currentWeatherSlice";
-import { useInput } from "../../../hooks/useInput";
 import { usePopup } from "../../../provider/PopupProvider";
-import { Transition } from "react-transition-group";
 import Select from "react-select";
 import s from "./Header.module.scss";
-import { PopupInput } from "../Popup/PopupInput";
 
 interface Props {}
 
 export const Header: FC<Props> = () => {
-  const popup = usePopup();
-  const theme = useTheme();
-  const input = useInput("");
-  const dispatch = useCustomDispatch();
+  const dispatch = useCustomDispatch()
+  const [value, setValue] = useState<string>(``)
   const { citysList } = useCustomSelector(selectCurrentWeatherData);
 
+  const popup = usePopup();
+  const theme = useTheme();
   const changeTheme = () => {
     theme.changeTheme(theme.theme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT);
     console.log("changeTheme");
+  };
+  
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => { setValue(e.target.value)}
+  const keyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.code === "Enter") {
+      dispatch(fetchCurrentWeather(value))
+      setValue('')
+    }
   };
 
   const customStyles = {
@@ -63,51 +68,20 @@ export const Header: FC<Props> = () => {
   useEffect(() => {
     dispatch(fetchCurrentWeather("Novorossiysk"));
   }, [dispatch]);
-  // const [inProp, setInProp] = useState(false);
 
-  const appendCity = () => {
-    if (input.value) {
-      dispatch(currentWeatherSlice.actions.addCity(input.value));
-    } else {
-      
-      // setInProp(!inProp)
-      // popup.changeInputState()
-      // popup.changeInputState();
-    }
-  };
   const findCity = (city: string) => {
     dispatch(fetchCurrentWeather(city));
   };
 
-  // const duration = 300;
-
-  // const defaultStyle = {
-  //   transition: `opacity ${duration}ms ease-in-out`,
-  //   opacity: 0,
-  // };
-
-  // const transitionStyles: any = {
-  //   entering: { opacity: 0 },
-  //   entered: { opacity: 1 },
-  //   exiting: { opacity: 0 },
-  //   exited: { opacity: 0 },
-  // };
+  const insertCity = () => {
+    if(value){
+      dispatch(currentWeatherSlice.actions.addCity(value));
+    }
+    else popup.allPopup("popupInput")
+  }
 
   return (
     <header className={s.header}>
-      {/* <Transition in={inProp} timeout={duration} mountOnEnter unmountOnExit>
-        {(state) => (
-          <h1
-            className={s.circle + " " + state}
-            style={{
-              ...defaultStyle,
-              ...transitionStyles[state],
-            }}
-          >
-            <PopupInput/>
-          </h1>
-        )}
-      </Transition> */}
       <div className={s.wrapper__logo}>
         <div className={s.logo}>
           <GlobalSvgSelecotr id="header-logo" />
@@ -121,13 +95,13 @@ export const Header: FC<Props> = () => {
         <div className={s.input__wrapp}>
           <input
             className={s.input}
-            value={input.value}
+            value={value}
             placeholder="Введите город"
             type="text"
-            onChange={input.onChange}
-            onKeyDown={input.keyDownHandler}
+            onChange={onChange}
+            onKeyDown={keyDownHandler}
           />
-          <button className={s.input__btn} onClick={() => popup.allPopup("popupInput")}>
+          <button className={s.input__btn} onClick={insertCity}>
             Add
           </button>
         </div>

@@ -5,6 +5,7 @@ import { Days } from "../../components/Days/Days";
 import { Tabs } from "../../components/Tabs/Tabs";
 import { ThisDay } from "../../components/ThisDay/ThisDay";
 import { ThisDayInfo } from "../../components/ThisDayInfo/ThisDayInfo";
+import { Header } from "../../shared/Header/Header";
 import s from "./Home.module.scss";
 
 interface Props {}
@@ -14,6 +15,8 @@ export const Home: FC<Props> = () => {
   const { filter } = useCustomSelector(selectCurrentWeatherData);
   
   return (
+    <>
+    <Header />   
     <div className={s.home}>
       <div className={s.wrapper}>
         <ThisDay weather={weather} />
@@ -26,5 +29,6 @@ export const Home: FC<Props> = () => {
         null
       )}
     </div>
+    </>
   );
 };

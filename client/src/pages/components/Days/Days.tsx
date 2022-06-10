@@ -8,7 +8,7 @@ import s from "./Days.module.scss";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 import "swiper/css";
-import "./Slider.scss";
+
 
 
 
