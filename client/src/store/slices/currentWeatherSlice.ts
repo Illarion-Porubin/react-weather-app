@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { Weather, CitysList, PayloadDay} from './../tipes/tipes';
+import { Weather, CitysList, PayloadDay, Week } from './../tipes/tipes';
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type CurrentWeather = {
@@ -10,6 +10,7 @@ type CurrentWeather = {
   payloadDays: number[],
   citysList: CitysList[],
   filter: number;
+  week: Week,
 }
 
 type Response = {
@@ -66,6 +67,15 @@ const initialState: CurrentWeather = {
   payloadDays: [],
   filter: Number(),
   citysList: [{ value: "city-1", label: "Новороссийск" }, { value: "city-2", label: "Сочи" }],
+  week: {
+    Sat: "СБ",
+    Sun: "ВС",
+    Mon: "ПН",
+    Tue: "ВТ",
+    Wed: "СР",
+    Thu: "ЧТ",
+    Fri: "ПТ",
+  },
   response: {
     status: 0,
     message: ''

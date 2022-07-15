@@ -28,17 +28,6 @@ export type PayloadList = [{
   weather: PayloadWeather,
   wind: PayloadWind
 }]
-///////////////////////Payload!///////////////////////
-export type CitysList = {
-  value: string,
-  label: string
-};
-
-
-export type Weather = {
-  city: PayloadCity,
-  list: PayloadList
-};
 
 export type PayloadDay = {
   timezone: number,
@@ -50,4 +39,37 @@ export type PayloadDay = {
   main: PayloadMain,
   weather: PayloadWeather,
   wind: PayloadWind
+}
+///////////////////////Payload!///////////////////////
+export type CitysList = {
+  value: string,
+  label: string
+};
+
+export type Weather = {
+  city: PayloadCity,
+  list: PayloadList
+};
+
+export type Week = {
+  [key: string]: string;
+}
+
+export type Item = {
+  icon_id: string;
+  name: string;
+  value: string;
+}
+
+export type MyPopup = {
+  list?: PayloadList[];
+  inputState?: boolean;
+  state?: boolean;
+  style?: boolean;
+  allPopup: Function;
+}
+
+export type  MyTheme = {
+  changeTheme: Function
+  theme: string
 }

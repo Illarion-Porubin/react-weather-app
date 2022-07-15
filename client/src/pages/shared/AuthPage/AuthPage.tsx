@@ -4,7 +4,7 @@ import s from "./AuthPage.module.scss";
 
 interface Props {}
 
-export const AuthPage: FC<Props> = ()  => {
+export const AuthPage: FC<Props> = () => {
   return (
       <div className={s.auth}>
         <h1>Авторизация</h1>

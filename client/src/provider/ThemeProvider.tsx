@@ -7,7 +7,7 @@ interface Props {
   children: ReactNode; 
 }
 
-export const ThemeProvider = ({ children, ...props }: Props) => {
+export const ThemeProvider = ({ children }: Props) => {
   const [theme, setTheme] = useState<Theme>(storage.getItem('theme') || Theme.LIGHT) ;
 
   changeCssRootVariables(theme)
@@ -23,7 +23,6 @@ export const ThemeProvider = ({ children, ...props }: Props) => {
         theme,
         changeTheme,
       }}
-      {...props}
     >
       {children}
     </ThemeContext.Provider>

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 import { useCustomSelector } from "../../../hooks/store";
 import { selectCurrentWeatherData } from "../../../store/selectors";
 import { Days } from "../../components/Days/Days";
@@ -10,7 +10,7 @@ import s from "./Home.module.scss";
 
 interface Props {}
 
-export const Home: FC<Props> = () => {
+export const Home: FC<Props> = memo(() => {
   const { weather } = useCustomSelector(selectCurrentWeatherData);
   const { filter } = useCustomSelector(selectCurrentWeatherData);
   
@@ -31,4 +31,4 @@ export const Home: FC<Props> = () => {
     </div>
     </>
   );
-};
+});

@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { Weather } from "../../../store/tipes/tipes";
+import { FC, memo } from "react";
+import { Weather, Item } from "../../../store/tipes/tipes";
 import { ThisDayItem } from "./ThisDayItem";
 import cloud from "../../../assets/images/cloud.png";
 import s from "./ThisDayInfo.module.scss";
@@ -9,15 +9,10 @@ interface Props {
   weather: Weather;
 }
 
-export interface Item {
-  icon_id: string;
-  name: string;
-  value: string;
-}
 
-export const ThisDayInfo: FC<Props> = ({ weather }) => {
-  const checkWind = Math.ceil(weather.list[0].wind.speed) < 5 ? 'м/с - легкий ветер' : 'м/с - сильный ветер';
-  const items = [
+export const ThisDayInfo: FC<Props> = memo(({ weather }) => {
+  const checkWind: string = Math.ceil(weather.list[0].wind.speed) < 5 ? 'м/с - легкий ветер' : 'м/с - сильный ветер';
+  const items: Item[] = [
     {
       icon_id: "temp",
       name: "Температура",
@@ -44,11 +39,11 @@ export const ThisDayInfo: FC<Props> = ({ weather }) => {
   return (
     <div className={s.this__day_info}>
       <div className={s.this__day_info_item}>
-        {items.map((item: Item, index) => (
+        {items.map((item: Item, index: number) => (
           <ThisDayItem item={item} key={index} />
         ))}
       </div>
       <img className={s.cloud__img} src={cloud} alt="облако" />
     </div>
   );
-};
+});

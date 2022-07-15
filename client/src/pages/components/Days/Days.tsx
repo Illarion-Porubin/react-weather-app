@@ -1,34 +1,25 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 import { Card } from "./Card";
 import { useCustomSelector } from "../../../hooks/store";
 import { selectCurrentWeatherData } from "../../../store/selectors";
 import { PayloadList } from "../../../store/tipes/tipes";
-import s from "./Days.module.scss";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
-import "swiper/css";
-
-
-
-
-// Import Swiper styles
+import s from "./Days.module.scss";
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 
 
-
 interface Props {
   list: PayloadList[];
 }
 
-export const Days: FC<Props> = ({ list }) => {
+export const Days: FC<Props> = memo(({ list }) => {
   const { filter } = useCustomSelector(selectCurrentWeatherData);
-  const sortDays = list[0].filter(
-    (item) => Number(item.dt_txt.slice(8, 10)) === filter
-  );
+  const sortDays: object[] = list[0].filter((item) => Number(item.dt_txt.slice(8, 10)) === filter);
+  
 
   return (
     <>
@@ -36,13 +27,12 @@ export const Days: FC<Props> = ({ list }) => {
         modules={[Navigation, Pagination, Scrollbar, A11y]}
         spaceBetween={0}
         slidesPerView={7}
-        navigation    
-        onSwiper={(breakpoints) => console.log(breakpoints)}
-        onSlideChange={() => console.log('slide change')}
         touchRatio={1}
         touchAngle={45}
         grabCursor={true}
         draggable={true}
+        onSlideChange={() => console.log('slide change')}
+        navigation    
         breakpoints={{
           1180: {
             width: 1180,
@@ -74,7 +64,7 @@ export const Days: FC<Props> = ({ list }) => {
           },
         }}
       >
-        {sortDays.map((day: any, index) => (
+        {sortDays.map((day: any, index: number) => (
           <SwiperSlide key={index}>
             <div className={s.days} key={index}>
               <Card day={day} key={index} />
@@ -84,4 +74,4 @@ export const Days: FC<Props> = ({ list }) => {
       </Swiper>
     </>
   );
-};
+});

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, memo } from "react";
 import { useContext } from "react";
 import { ReactNode } from "react";
 import { PopupContext, defaultState } from "../context/PopupContext";
@@ -12,17 +12,16 @@ interface Props {
 }
 
 export const usePopup = () => { return useContext(PopupContext) };
-export const PopupProvider: FC<Props> = ({ children, ...props }) => {
+export const PopupProvider: FC<Props> = memo(({ children }) => {
   const [state, setState] = useState(defaultState.state);
   const [style, setStyle] = useState(defaultState.style);
   const [inputState, setInputState] = useState(defaultState.inputState);
   const dispatch = useDispatch();
+
   const dayValue = (day: PayloadDay) => {
     allPopup("popupDay")
     dispatch(currentWeatherSlice.actions.payloadDay(day));
   }
-  
-  console.log(`usePopup`);
 
 
   const allPopup = (popup: string) => {
@@ -49,9 +48,8 @@ export const PopupProvider: FC<Props> = ({ children, ...props }) => {
         allPopup,
         dayValue,
       }}
-      {...props}
     >
       {children}
     </PopupContext.Provider>
   );
-};
+});

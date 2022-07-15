@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, memo, useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useCustomSelector } from "../../../hooks/store";
 import { selectCurrentWeatherData } from "../../../store/selectors";
@@ -7,13 +7,14 @@ import s from "./Tabs.module.scss";
 
 interface Props {}
 
-export const Tabs: FC<Props> = () => {
-  const dispatch = useDispatch();
+export const Tabs: FC<Props> = memo(() => {
   const { filter } = useCustomSelector(selectCurrentWeatherData);
   const { payloadDays } = useCustomSelector(selectCurrentWeatherData);
-  const filterSelect = (day: number | boolean) => {
-    dispatch(currentWeatherSlice.actions.filter(day));
-  };
+  const dispatch = useDispatch();
+
+  const filterSelect = useCallback((day: number | boolean) => {
+    dispatch(currentWeatherSlice.actions.filter(day)
+  )}, [dispatch]);
 
   return (
     <>
@@ -21,7 +22,7 @@ export const Tabs: FC<Props> = () => {
         <div
           className={filter ? s.tabs__wrapper : `${s.tabs__wrapper} ${s.none}`}
         >
-          {payloadDays.map((day: number, index) => (
+          {payloadDays.map((day: number, index: number) => (
             <div
               className={filter === day ? `${s.tab} ${s.active}` : s.tab}
               key={index}
@@ -40,4 +41,4 @@ export const Tabs: FC<Props> = () => {
       </div>
     </>
   );
-};
+});

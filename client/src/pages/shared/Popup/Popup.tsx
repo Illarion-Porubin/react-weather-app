@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { Item } from "../../components/ThisDayInfo/ThisDayInfo";
+import { FC, memo } from "react";
+import { Item, MyPopup } from "../../../store/tipes/tipes";
 import { ThisDayItem } from "../../components/ThisDayInfo/ThisDayItem";
 import { GlobalSvgSelecotr } from "../../../assets/icons/global/GlobalSvgSelecotr";
 import { usePopup } from "../../../provider/PopupProvider";
@@ -9,30 +9,20 @@ import s from "./Popup.module.scss";
 
 interface Props {}
 
-const week: any = {
-  "Sat": "СБ",
-  "Sun": "ВС",
-  "Mon": "ПН",
-  "Tue": "ВТ",
-  "Wed": "СР",
-  "Thu": "ЧТ",
-  "Fri": "ПТ",
-}
-
-
-export const Popup: FC<Props> = () => {
-  const popup = usePopup();
+export const Popup: FC<Props> = memo(() => {
   const { payloadDay } = useCustomSelector(selectCurrentWeatherData);
   const { weather } = useCustomSelector(selectCurrentWeatherData);
-  const checTemp = Math.floor(payloadDay.main.temp) >= 0 ? "+" : "-";
-  const popupCheck = popup.style ? `${s.popup} ${s.active}` : s.popup;
-  const date = String(new Date((payloadDay.dt  * 1000 - 10800)));
+  const { week } = useCustomSelector(selectCurrentWeatherData);
+  const popup: MyPopup = usePopup();
+  const checTemp: string = Math.floor(payloadDay.main.temp) >= 0 ? "+" : "-";
+  const popupCheck: string = popup.style ? `${s.popup} ${s.active}` : s.popup;
+  const date: string = String(new Date(payloadDay.dt * 1000 - 10800));
 
-  const checkWind =
+  const checkWind: string =
     Math.ceil(payloadDay.wind.speed) < 5
       ? "м/с - легкий ветер"
       : "м/с - сильный ветер";
-  const items = [
+  const items: Item[] = [
     {
       icon_id: "temp",
       name: "Температура",
@@ -62,8 +52,8 @@ export const Popup: FC<Props> = () => {
       <div className={s.blur}></div>
       <div className={popupCheck}>
         <div className={s.day}>
-          <div className={s.curentDay}>{week[date.slice(0 , 3)]}</div>
-          
+          <div className={s.curentDay}>{week[date.slice(0, 3)]}</div>
+
           <div className={s.day__temp}>
             {checTemp}
             {Math.floor(payloadDay.main.temp)}°
@@ -72,7 +62,10 @@ export const Popup: FC<Props> = () => {
             <GlobalSvgSelecotr id="sun" />
           </div>
           <div className={s.day__time}>
-            <div><span>Дата: </span>{date.slice(8 , 15)}</div>
+            <div>
+              <span>Дата: </span>
+              {date.slice(8, 15)}
+            </div>
           </div>
           <div className={s.day__time}>
             Город: <span>{weather.city.name}</span>
@@ -99,4 +92,4 @@ export const Popup: FC<Props> = () => {
       </div>
     </>
   ) : null;
-};
+});

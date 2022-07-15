@@ -1,4 +1,4 @@
-import React, { useEffect, FC, useState } from "react";
+import React, { useEffect, FC, useState, memo, useCallback, useMemo } from "react";
 import { GlobalSvgSelecotr } from "../../../assets/icons/global/GlobalSvgSelecotr";
 import { useTheme } from "../../../hooks/useTheme";
 import { Theme } from "../../../context/ThemeConext";
@@ -7,32 +7,33 @@ import { currentWeatherSlice } from "../../../store/slices/currentWeatherSlice";
 import { useCustomDispatch, useCustomSelector } from "../../../hooks/store";
 import { selectCurrentWeatherData } from "../../../store/selectors";
 import { usePopup } from "../../../provider/PopupProvider";
+import { MyPopup, MyTheme } from "../../../store/tipes/tipes";
 import Select from "react-select";
 import s from "./Header.module.scss";
 
 interface Props {}
 
-export const Header: FC<Props> = () => {
+export const Header: FC<Props> = memo(() => {
   const dispatch = useCustomDispatch()
-  const [value, setValue] = useState<string>(``)
   const { citysList } = useCustomSelector(selectCurrentWeatherData);
+  const [value, setValue] = useState<string>(``)
+  const popup: MyPopup = usePopup();
+  const theme: MyTheme= useTheme();
 
-  const popup = usePopup();
-  const theme = useTheme();
-  const changeTheme = () => {
-    theme.changeTheme(theme.theme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT);
-    console.log("changeTheme");
-  };
-  
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => { setValue(e.target.value)}
-  const keyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const changeTheme = useCallback((): void => {
+    theme.changeTheme(theme.theme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT); 
+  }, [theme]);
+
+  const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {setValue(e.target.value)}, [])
+
+  const keyDownHandler = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.code === "Enter") {
       dispatch(fetchCurrentWeather(value))
       setValue('')
     }
-  };
+  }, [value, dispatch]);
 
-  const customStyles = {
+  const customStyles: object = {
     option: (styles: any) => ({
       ...styles,
       width: "100%",
@@ -65,20 +66,20 @@ export const Header: FC<Props> = () => {
     }),
   };
 
-  useEffect(() => {
-    dispatch(fetchCurrentWeather("Novorossiysk"));
+  const findCity = useCallback((city: string) => {
+    dispatch(fetchCurrentWeather(city));
   }, [dispatch]);
 
-  const findCity = (city: string) => {
-    dispatch(fetchCurrentWeather(city));
-  };
-
-  const insertCity = () => {
+  const insertCity = useCallback((): void => {
     if(value){
       dispatch(currentWeatherSlice.actions.addCity(value));
     }
     else popup.allPopup("popupInput")
-  }
+  }, [value, dispatch, popup])
+
+  useEffect(() => {
+    dispatch(fetchCurrentWeather("Novorossiysk"));
+  }, [dispatch]);
 
   return (
     <header className={s.header}>
@@ -107,11 +108,10 @@ export const Header: FC<Props> = () => {
         </div>
         <Select
           styles={customStyles}
-          value={citysList[0]}
           options={citysList}
           onChange={(e: any) => findCity(e.label)}
         />
       </div>
     </header>
   );
-};
+});
