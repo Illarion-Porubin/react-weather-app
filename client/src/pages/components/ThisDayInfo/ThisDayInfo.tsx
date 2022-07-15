@@ -1,4 +1,4 @@
-import { FC, memo } from "react";
+import { FC, memo, useMemo } from "react";
 import { Weather, Item } from "../../../store/tipes/tipes";
 import { ThisDayItem } from "./ThisDayItem";
 import cloud from "../../../assets/images/cloud.png";
@@ -12,7 +12,7 @@ interface Props {
 
 export const ThisDayInfo: FC<Props> = memo(({ weather }) => {
   const checkWind: string = Math.ceil(weather.list[0].wind.speed) < 5 ? 'м/с - легкий ветер' : 'м/с - сильный ветер';
-  const items: Item[] = [
+  const items: Item[] = useMemo( () =>[
     {
       icon_id: "temp",
       name: "Температура",
@@ -35,7 +35,8 @@ export const ThisDayInfo: FC<Props> = memo(({ weather }) => {
       name: "Ветер",
       value: `${Math.ceil(weather.list[0].wind.speed)} ${checkWind}`,
     },
-  ];
+  ],[checkWind, weather.list]);
+
   return (
     <div className={s.this__day_info}>
       <div className={s.this__day_info_item}>
