@@ -36,7 +36,6 @@ export const ThisDayInfo: FC<Props> = memo(({ weather }) => {
       value: `${Math.ceil(weather.list[0].wind.speed)} ${checkWind}`,
     },
   ],[checkWind, weather.list]);
-
   return (
     <div className={s.this__day_info}>
       <div className={s.this__day_info_item}>
