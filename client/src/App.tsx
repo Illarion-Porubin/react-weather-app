@@ -1,7 +1,6 @@
-import { Home } from "./pages/components/Home/Home";
-import { AuthPage } from "./pages/shared/AuthPage/AuthPage";
+import { Main } from "./page/Main/Main";
 import { Route, Switch } from "react-router-dom";
-import { Popup } from "./pages/shared/Popup/Popup";
+import { Popup } from "./components/Popup/Popup";
 
 const App = () => {
   return (
@@ -9,8 +8,7 @@ const App = () => {
       <Popup />
       <div className="container">
         <Switch>
-          <Route path="/Auth" exact component={AuthPage} />
-          <Route path="/" exact component={Home} />
+          <Route path="/" exact component={Main} />
         </Switch>
       </div>
     </div>

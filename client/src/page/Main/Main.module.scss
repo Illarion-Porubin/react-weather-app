@@ -1,0 +1,21 @@
+.home {
+  font-size: 30px;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 7px;
+}
+
+@media(max-width: 880px) {
+  .wrapper {
+    display: block;
+  }
+}

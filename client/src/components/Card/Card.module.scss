@@ -1,0 +1,74 @@
+@import "../../styles/variables.scss";
+
+.days {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: left;
+  padding: 8px;
+  width: 100%;
+}
+
+@media (max-width: 393px) {
+  .days {
+    justify-content: center;
+  }
+}
+
+
+.card {
+    display: flex;
+    flex-direction: column;
+    background: var(#{--card-background-default});
+    border-radius: 10px;
+    padding: 10px;
+    margin: 6px;
+    width: 140px;
+    height: 212px;
+    transition: 0.3s;
+    cursor: pointer;
+    .info {
+      font-size: 13px;
+      line-height: 16px;
+      color: $base-color;
+    }
+
+    .dayName {
+      font-size: 20px;
+      line-height: 22px;
+      margin-bottom: 4px;
+    }
+
+    .temp__night {
+      font-size: 13px;
+      line-height: 16px;
+      margin-bottom: 6px;
+      color: $base-color;
+    }
+
+    .temp__day {
+      font-size: 24px;
+      line-height: 28px;
+      color: var(#{--text-color-default});
+    }
+
+    .day__info {
+      font-size: 18px;
+      line-height: 22px;
+      color: $base-color;
+    }
+
+    .day {
+      margin-bottom: 8px;
+      font-size: 18px;
+      line-height: 22px;
+      color: $base-color;
+    }
+
+    .img {
+      margin-bottom: 12px;
+    }
+
+    &:hover {
+      box-shadow: var(#{--card-shadow-default});
+    }
+  }
