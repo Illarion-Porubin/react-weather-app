@@ -1,4 +1,4 @@
-import { Main } from "./page/Main/Main";
+import { Main } from "./pages/Main/Main";
 import { Route, Switch } from "react-router-dom";
 import { Popup } from "./components/Popup/Popup";
 
